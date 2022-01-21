@@ -40,11 +40,12 @@
             <td>
                 <a th:href="@{'/products/show/' + ${product.id}}" class="btn btn-primary" th:text="Watch"/>
                 <a th:href="@{'/products/' + ${product.id}}" class="btn btn-danger" th:text="Delete"/>
+                <a th:href="@{'/products/edit/' + ${product.id}}" class="btn btn-info" th:text="Edit"/>
             </td>
         </tr>
         </tbody>
     </table>
-    <span th:text="${'Всего товаров ' + products.size()}"/>
+    <span th:text="${'Всего товаров '  + products.size()}"/>
     <br>
     <form th:action="@{/products/add}"
           th:object="${product}" method="post" class="form-horizontal">

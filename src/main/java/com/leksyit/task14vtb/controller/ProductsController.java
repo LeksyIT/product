@@ -30,7 +30,7 @@ public class ProductsController {
     }
 
     @PostMapping("/add")
-    public String addProduct(@ModelAttribute(value = PRODUCT)Product product) {
+    public String addProduct(@ModelAttribute(value = PRODUCT) Product product) {
         productsService.add(product);
         return "redirect:/products";
     }
@@ -44,8 +44,6 @@ public class ProductsController {
 
     @GetMapping("/{id}")
     public String deleteStudent(@PathVariable Long id) {
-
-        //delete student object
         productsService.deleteProduct(id);
         return "redirect:/products";
     }
@@ -59,29 +57,23 @@ public class ProductsController {
         return PRODUCTS;
     }
 
+    @PostMapping("/edit/{id}")
+    public String updateStudent(@PathVariable Long id, @ModelAttribute(value = PRODUCT) Product product, Model model) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        //get product from database by id
+        Product existingProduct = productsService.getProductById(id);
+        System.out.println(existingProduct.getId() + " " + existingProduct.getTitle() + " " + existingProduct.getPrice());
+        existingProduct.setId(id);
+        existingProduct.setTitle(product.getTitle());
+        existingProduct.setPrice(product.getPrice());
+        System.out.println(existingProduct.getId() + " " + existingProduct.getTitle() + " " + existingProduct.getPrice());
+        //save updated product object
+        productsService.updateProduct(existingProduct);
+        model.addAttribute(PRODUCTS,productsService.getAllProducts());
+        return PRODUCTS;
+    }
+    @GetMapping("/edit/{id}")
+    public String openUpdateStudentPage(@PathVariable Long id, @ModelAttribute("product") Product product) {
+        return "edit-product";
+    }
 }

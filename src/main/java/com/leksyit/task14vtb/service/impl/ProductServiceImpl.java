@@ -10,9 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
@@ -48,5 +45,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(@PathVariable Long id) {
         productRepository.delete(productRepository.findById(id).orElseThrow());
+    }
+
+    @Override
+    public Product getProductById(Long id) {
+        return productRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public Product updateProduct(Product student) {
+        return productRepository.save(student);
     }
 }
