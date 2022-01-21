@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Data
@@ -23,7 +22,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    public User(String login, String password,Collection<Role> roles) {
+    public User(String login, String password, Collection<Role> roles) {
         this.login = login;
         this.password = password;
         this.roles = roles;

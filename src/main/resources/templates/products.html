@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="utf-8"/>
     <title>Каталог товаров</title>
@@ -22,7 +22,17 @@
             </div>
         </div>
     </form>
+    <form th:action="@{/products/min-to-max}" method="get" class="form-horizontal">
+        <div>
 
+            <button class="btn btn-danger" type="submit">Min->Max</button>
+        </div>
+    </form>
+    <form th:action="@{/products/max-to-min}" method="get" class="form-horizontal">
+        <div>
+            <button class="btn btn-primary" type="submit">Max->Min</button>
+        </div>
+    </form>
     <table class="table table-hover">
         <thead>
         <tr>
@@ -34,13 +44,13 @@
         </thead>
         <tbody>
         <tr th:each="product : ${products}">
-            <td th:text="${product.id}"/>
-            <td th:text="${product.title}"/>
-            <td th:text="${product.price}"/>
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.title}"></td>
+            <td th:text="${product.price}"></td>
             <td>
-                <a th:href="@{'/products/show/' + ${product.id}}" class="btn btn-primary" th:text="Watch"/>
-                <a th:href="@{'/products/' + ${product.id}}" class="btn btn-danger" th:text="Delete"/>
-                <a th:href="@{'/products/edit/' + ${product.id}}" class="btn btn-info" th:text="Edit"/>
+                <a th:href="@{'/products/show/' + ${product.id}}" class="btn btn-primary" th:text="Watch"></a>
+                <a th:href="@{'/products/' + ${product.id}}" class="btn btn-danger" th:text="Delete"></a>
+                <a th:href="@{'/products/edit/' + ${product.id}}" class="btn btn-info" th:text="Edit"></a>
             </td>
         </tr>
         </tbody>
