@@ -1,6 +1,7 @@
 package com.leksyit.task14vtb.configuration;
 
 import com.leksyit.task14vtb.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,12 +16,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     @Lazy
-    private UserService userService;
+    private final UserService userService;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
