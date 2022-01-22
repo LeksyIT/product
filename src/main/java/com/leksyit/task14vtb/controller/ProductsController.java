@@ -3,7 +3,7 @@ package com.leksyit.task14vtb.controller;
 
 import com.leksyit.task14vtb.entity.Product;
 import com.leksyit.task14vtb.service.impl.ProductServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,17 +12,16 @@ import java.util.Comparator;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/products")
 public class ProductsController {
-    private ProductServiceImpl productsService;
+
+    private final ProductServiceImpl productsService;
 
     private static final String PRODUCT = "product";
     private static final String PRODUCTS = "products";
 
-    @Autowired
-    public void setProductsService(ProductServiceImpl productsService) {
-        this.productsService = productsService;
-    }
+
 
     @GetMapping
     public String showProductsList(Model model) {

@@ -6,7 +6,6 @@ import com.leksyit.task14vtb.entity.User;
 import com.leksyit.task14vtb.repository.UserRepository;
 import com.leksyit.task14vtb.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,12 +22,18 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public User save(UserRegistrationDto registrationDto) {
-        User user = new User(registrationDto.getLogin(), passwordEncoder.encode(registrationDto.getPassword()), List.of(new Role("ROLE_USER")));
-        return userRepository.save(user);
+        if (userRepository.findByLogin(registrationDto.getLogin()) != null){
+            return null;
+        }
+        else{
+            User user = new User(registrationDto.getLogin(), passwordEncoder.encode(registrationDto.getPassword()), List.of(new Role("ROLE_USER")));
+            return userRepository.save(user);
+        }
     }
 
     @Override
