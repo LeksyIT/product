@@ -45,7 +45,7 @@ public class ProductsController {
     }
 
     @GetMapping("/{id}")
-    public String deleteStudent(@PathVariable Long id) {
+    public String deleteStudent(@PathVariable(value="id") Long id) {
         productsService.deleteProduct(id);
         return "redirect:/products";
     }
@@ -60,7 +60,7 @@ public class ProductsController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updateStudent(@PathVariable Long id, @ModelAttribute(value = PRODUCT) Product product, Model model) {
+    public String updateStudent(@PathVariable(value="id") Long id, @ModelAttribute(value = PRODUCT) Product product, Model model) {
         model.addAttribute(PRODUCTS, productsService.getAllProducts());
 
         //get product from database by id
@@ -75,7 +75,7 @@ public class ProductsController {
     }
 
     @GetMapping("/edit/{id}")
-    public String openUpdateStudentPage(@PathVariable Long id, @ModelAttribute("product") Product product) {
+    public String openUpdateStudentPage(@PathVariable(value="id") Long id, @ModelAttribute("product") Product product) {
         return "edit-product";
     }
 

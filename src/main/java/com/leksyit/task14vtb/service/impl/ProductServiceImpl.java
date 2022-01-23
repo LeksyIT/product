@@ -5,8 +5,8 @@ import com.leksyit.task14vtb.entity.Product;
 import com.leksyit.task14vtb.repository.ProductRepository;
 import com.leksyit.task14vtb.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
@@ -15,25 +15,24 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    @Autowired
-    public void setProductRepository(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
-
+    @Transactional(readOnly = true)
     public Product getById(Long id) {
         return productRepository.getById(id);
     }
 
+    @Transactional(readOnly = true)
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
+    @Transactional
     public void add(Product product) {
         productRepository.save(product);
     }
 
+    @Transactional(readOnly = true)
     public List<Product> getAllProductWithFilter(String word) {
         List<Product> fullList = productRepository.findAll();
         if (word == null) {
@@ -43,16 +42,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public void deleteProduct(@PathVariable Long id) {
         productRepository.delete(productRepository.findById(id).orElseThrow());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Product getProductById(Long id) {
         return productRepository.findById(id).orElseThrow();
     }
 
     @Override
+    @Transactional
     public Product updateProduct(Product student) {
         return productRepository.save(student);
     }

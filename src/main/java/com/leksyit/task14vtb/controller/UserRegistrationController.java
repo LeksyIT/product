@@ -29,7 +29,12 @@ public class UserRegistrationController {
 
     @PostMapping
     public String registerUserAccount(@ModelAttribute("user") UserRegistrationDto registrationDto) {
-        userService.save(registrationDto);
-        return "redirect:/registration?success";
+        if(userService.save(registrationDto) ==null){
+            return "redirect:/registration?duplicate";
+        }
+        else{
+            return "redirect:/registration?success";
+        }
+
     }
 }

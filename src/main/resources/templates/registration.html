@@ -41,6 +41,12 @@
                 </div>
             </div>
 
+            <!-- error message -->
+            <div th:if="${param.duplicate}">
+                <div class="alert alert-info">This login already exists!
+                </div>
+            </div>
+
             <h1>Registration</h1>
 
             <form th:action="@{/registration}" method="post" th:object="${user}">

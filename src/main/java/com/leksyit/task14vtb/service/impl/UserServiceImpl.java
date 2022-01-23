@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -26,17 +27,18 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public User save(UserRegistrationDto registrationDto) {
-        if (userRepository.findByLogin(registrationDto.getLogin()) != null){
+        try{
+        User user = new User(registrationDto.getLogin(), passwordEncoder.encode(registrationDto.getPassword()), List.of(new Role("ROLE_USER")));
+        return userRepository.save(user);}
+        catch (Exception ex){
             return null;
-        }
-        else{
-            User user = new User(registrationDto.getLogin(), passwordEncoder.encode(registrationDto.getPassword()), List.of(new Role("ROLE_USER")));
-            return userRepository.save(user);
         }
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByLogin(username);
         if (user == null) {
