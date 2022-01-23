@@ -44,7 +44,7 @@ public class ProductsController {
         return "product-page";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/confidential/{id}")
     public String deleteStudent(@PathVariable(value="id") Long id) {
         productsService.deleteProduct(id);
         return "redirect:/products";

@@ -49,7 +49,7 @@
             <td th:text="${product.price}"></td>
             <td>
                 <a th:href="@{'/products/show/' + ${product.id}}" class="btn btn-primary" th:text="Watch"></a>
-                <a th:href="@{'/products/' + ${product.id}}" class="btn btn-danger" th:text="Delete"></a>
+                <a th:href="@{'/products/confidential/' + ${product.id}}" class="btn btn-danger" th:text="Delete"></a>
                 <a th:href="@{'/products/edit/' + ${product.id}}" class="btn btn-info" th:text="Edit"></a>
             </td>
         </tr>

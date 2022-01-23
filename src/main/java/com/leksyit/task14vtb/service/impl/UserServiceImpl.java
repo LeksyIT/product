@@ -23,14 +23,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
     public User save(UserRegistrationDto registrationDto) {
         try{
-        User user = new User(registrationDto.getLogin(), passwordEncoder.encode(registrationDto.getPassword()), List.of(new Role("ROLE_USER")));
+        User user = new User(registrationDto.getLogin(), passwordEncoder.encode(registrationDto.getPassword()), List.of(new Role("ROLE_ADMIN")));
         return userRepository.save(user);}
         catch (Exception ex){
             return null;
