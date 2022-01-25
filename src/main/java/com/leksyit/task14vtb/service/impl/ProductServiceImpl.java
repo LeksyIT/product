@@ -1,7 +1,9 @@
 package com.leksyit.task14vtb.service.impl;
 
 
+import com.leksyit.task14vtb.dto.ProductDto;
 import com.leksyit.task14vtb.entity.Product;
+import com.leksyit.task14vtb.mapper.ProductMapper;
 import com.leksyit.task14vtb.repository.ProductRepository;
 import com.leksyit.task14vtb.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -17,19 +19,16 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
+    private final ProductMapper productMapper;
+
     @Transactional(readOnly = true)
     public Product getById(Long id) {
-        return productRepository.getById(id);
+         return productRepository.getById(id);
     }
 
     @Transactional(readOnly = true)
     public List<Product> getAllProducts() {
         return productRepository.findAll();
-    }
-
-    @Transactional
-    public void add(Product product) {
-        productRepository.save(product);
     }
 
     @Transactional(readOnly = true)
@@ -55,7 +54,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Product updateProduct(Product student) {
-        return productRepository.save(student);
+    public void updateProduct(ProductDto productDto) {
+        Product product = productMapper.productDtoToProduct(productDto);
+        productRepository.save(product);
     }
 }

@@ -44,30 +44,30 @@
         </thead>
         <tbody>
         <tr th:each="product : ${products}">
-            <td th:text="${product.id}"></td>
-            <td th:text="${product.title}"></td>
-            <td th:text="${product.price}"></td>
+            <td th:text="${product.productId}"></td>
+            <td th:text="${product.productTitle}"></td>
+            <td th:text="${product.productPrice}"></td>
             <td>
-                <a th:href="@{'/products/show/' + ${product.id}}" class="btn btn-primary" th:text="Watch"></a>
-                <a th:href="@{'/products/confidential/' + ${product.id}}" class="btn btn-danger" th:text="Delete"></a>
-                <a th:href="@{'/products/edit/' + ${product.id}}" class="btn btn-info" th:text="Edit"></a>
+                <a th:href="@{'/products/show/' + ${product.productId}}" class="btn btn-primary" th:text="Watch"></a>
+                <a th:href="@{'/products/confidentialvb /' + ${product.productId}}" class="btn btn-danger" th:text="Delete"></a>
+                <a th:href="@{'/products/edit/' + ${product.productId}}" class="btn btn-info" th:text="Edit"></a>
             </td>
         </tr>
         </tbody>
     </table>
-    <span th:text="${'Всего товаров '  + products.size()}"/>
+    <span th:text="${'Всего товаров '  + products.size()}"></span>
     <br>
     <form th:action="@{/products/add}"
           th:object="${product}" method="post" class="form-horizontal">
 
         <div style="margin-bottom: 25px" class="input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input th:field="*{title}" placeholder="title (*)" class="form-control"/>
+            <input th:field="*{productTitle}" placeholder="title (*)" class="form-control"/>
         </div>
 
         <div style="margin-bottom: 25px" class="input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input th:field="*{price}" placeholder="price (*)" class="form-control"/>
+            <input th:field="*{productPrice}" placeholder="price (*)" class="form-control"/>
         </div>
 
         <div style="margin-top: 10px" class="form-group">
