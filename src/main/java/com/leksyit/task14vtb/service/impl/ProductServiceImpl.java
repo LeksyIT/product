@@ -25,16 +25,19 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductMapper productMapper;
 
+    @Override
     @Transactional(readOnly = true)
     public ProductDto getById(Long id) {
-        return productMapper.productToProductDto(productRepository.getById(id));
+        return productMapper.productToProductDto(productRepository.findById(id).orElseThrow());
     }
 
+    @Override
     @Transactional(readOnly = true)
     public List<ProductDto> getAllProducts() {
         return productMapper.listOfProductsToListOfProductsDto(productRepository.findAll());
     }
 
+    @Override
     @Transactional(readOnly = true)
     public List<ProductDto> getAllProductWithFilter(String word) {
         List<Product> fullList = productRepository.findAll();
@@ -51,22 +54,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Product getProductById(Long id) {
-        return productRepository.findById(id).orElseThrow();
-    }
-
-    @Override
     @Transactional
     public void updateProduct(ProductDto productDto) {
         Product product = productMapper.productDtoToProduct(productDto);
         productRepository.save(product);
     }
 
+    @Override
+    @Transactional(readOnly = true)
     public Page<Product> getProductWithPagingAndFiltering(Specification<Product> specifications, Pageable pageable) {
         return productRepository.findAll(specifications, pageable);
     }
 
+    @Override
+    @Transactional(readOnly = true)
     public List<ProductDto> sortedMinToMax() {
         return productMapper.
                 listOfProductsToListOfProductsDto(productRepository.
@@ -76,6 +77,8 @@ public class ProductServiceImpl implements ProductService {
                         toList());
     }
 
+    @Override
+    @Transactional(readOnly = true)
     public List<ProductDto> sortedMaxToMin() {
         return productMapper.
                 listOfProductsToListOfProductsDto(productRepository.
@@ -85,6 +88,8 @@ public class ProductServiceImpl implements ProductService {
                         toList());
     }
 
+    @Override
+    @Transactional
     public void addProductById(Long id, ProductDto productDto) {
         Product existingProduct = productRepository.getById(id);
         existingProduct.setTitle(productDto.getProductTitle());

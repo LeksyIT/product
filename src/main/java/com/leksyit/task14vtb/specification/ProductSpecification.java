@@ -1,11 +1,12 @@
 package com.leksyit.task14vtb.specification;
 
 import com.leksyit.task14vtb.entity.Product;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 
-@RequiredArgsConstructor
+
 public class ProductSpecification {
+
+    private ProductSpecification(){}
 
     public static Specification<Product> titleContains(String word) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.
