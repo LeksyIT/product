@@ -83,13 +83,13 @@ public class ProductsController {
     @PostMapping("/edit/{id}")
     public String updateStudent(@PathVariable(value = "id") Long id, @ModelAttribute(value = PRODUCT) ProductDto productDto, Model model) {
         productsService.addProductById(id, productDto);
-
         model.addAttribute(PRODUCTS, productsService.getAllProducts());
         return REDIRECT_PRODUCTS;
     }
 
     @GetMapping("/edit/{id}")
-    public String openUpdateStudentPage(@PathVariable(value = "id") Long id, @ModelAttribute("product") ProductDto productDto) {
+    public String openUpdateStudentPage(@PathVariable(value = "id") Long id, @ModelAttribute("product") ProductDto productDto, Model model) {
+        model.addAttribute(PRODUCT, productsService.getById(id));
         return "edit-product";
     }
 //// FIXME: 26.01.2022 Сделать одним методом который принимает параметр

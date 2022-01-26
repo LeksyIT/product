@@ -91,9 +91,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void addProductById(Long id, ProductDto productDto) {
-        Product existingProduct = productRepository.getById(id);
+        Product existingProduct = productRepository.findById(id).orElseThrow();
         existingProduct.setTitle(productDto.getProductTitle());
         existingProduct.setPrice(productDto.getProductPrice());
+
+        productRepository.save(existingProduct);
     }
 
 }
