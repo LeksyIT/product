@@ -33,7 +33,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User save(UserRegistrationDto registrationDto) {
         try {
-            User user = new User(registrationDto.getLogin(), passwordEncoder.encode(registrationDto.getPassword()), List.of(new Role("ROLE_ADMIN")));
+            User user = new User(registrationDto.getLogin(),
+                    passwordEncoder.encode(registrationDto.getPassword()),
+                    List.of(new Role("ROLE_ADMIN")));
             return userRepository.save(user);
         } catch (Exception ex) {
             return null;

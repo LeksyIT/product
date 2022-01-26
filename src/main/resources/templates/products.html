@@ -15,6 +15,14 @@
             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
             <input th:value="${word != null} ? ${word}" name="word" placeholder="Word" class="form-control"/>
         </div>
+        <div style="..." class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input th:value="${minPrice != null} ? ${minPrice}" name="minPrice" placeholder="minPrice" class="form-control"/>
+        </div>
+        <div style="..." class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input th:value="${maxPrice != null} ? ${maxPrice}" name="maxPrice" placeholder="maxPrice" class="form-control"/>
+        </div>
 
         <div style="..." class="form-group">
             <div class="col-sm-6 controls">
@@ -55,7 +63,7 @@
         </tr>
         </tbody>
     </table>
-    <span th:text="${'Всего товаров '  + products.size()}"></span>
+<!--    <span th:text="${'Всего товаров '  + products.size()}"></span>-->
     <br>
     <form th:action="@{/products/add}"
           th:object="${product}" method="post" class="form-horizontal">
