@@ -23,9 +23,11 @@ public interface ProductService {
 
     Page<Product> getProductWithPagingAndFiltering(Specification<Product> specifications, Pageable pageable);
 
-    List<ProductDto> sortedMinToMax();
-
-    List<ProductDto> sortedMaxToMin();
-
     void addProductById(Long id, ProductDto productDto);
+
+    List<ProductDto> getListProductsFromPageableAndNullSpecification(Pageable pageable);
+
+    List<ProductDto> getListProductsFromPageable(Specification<Product> productSpecification, Pageable pageable);
+
+    Specification<Product> settingSpecification(String word, Integer minPrice, Integer maxPrice);
 }

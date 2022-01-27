@@ -10,7 +10,8 @@
 
 <body>
 <div class="container">
-    <form th:action="@{/products/filter}" method="get" class="form-horizontal">
+    <h3>Filter</h3>
+    <form th:action="@{/products}" method="get" class="form-horizontal">
         <div style="..." class="input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
             <input th:value="${word != null} ? ${word}" name="word" placeholder="Word" class="form-control"/>
@@ -23,24 +24,30 @@
             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
             <input th:value="${maxPrice != null} ? ${maxPrice}" name="maxPrice" placeholder="maxPrice" class="form-control"/>
         </div>
-
+        <br>
         <div style="..." class="form-group">
             <div class="col-sm-6 controls">
                 <button type="submit" class="btn btn-primary">Filter</button>
             </div>
         </div>
     </form>
-    <form th:action="@{/products/min-to-max}" method="get" class="form-horizontal">
+    <br>
+    <form th:action="@{/products/sorted}" method="get" class="form-horizontal">
+        <input type="hidden" name="sort" value="price,asc">
+        <input type="hidden" name="size" value="5">
         <div>
 
             <button class="btn btn-danger" type="submit">Min->Max</button>
         </div>
     </form>
-    <form th:action="@{/products/max-to-min}" method="get" class="form-horizontal">
+    <form th:action="@{/products/sorted}" method="get" class="form-horizontal">
+        <input type="hidden" name="sort" value="price,desc">
+        <input type="hidden" name="size" value="5">
         <div>
             <button class="btn btn-primary" type="submit">Max->Min</button>
         </div>
     </form>
+    <br>
     <table class="table table-hover">
         <thead>
         <tr>
@@ -57,13 +64,14 @@
             <td th:text="${product.productPrice}"></td>
             <td>
                 <a th:href="@{'/products/show/' + ${product.productId}}" class="btn btn-primary" th:text="Watch"></a>
-                <a th:href="@{'/products/confidentialvb /' + ${product.productId}}" class="btn btn-danger" th:text="Delete"></a>
+                <a th:href="@{'/products/confidential/' + ${product.productId}}" class="btn btn-danger" th:text="Delete"></a>
                 <a th:href="@{'/products/edit/' + ${product.productId}}" class="btn btn-info" th:text="Edit"></a>
             </td>
         </tr>
         </tbody>
     </table>
-<!--    <span th:text="${'Всего товаров '  + products.size()}"></span>-->
+    <span th:text="${'Всего товаров '  + products.size()}"></span>
+    <br>
     <br>
     <form th:action="@{/products/add}"
           th:object="${product}" method="post" class="form-horizontal">
@@ -84,6 +92,26 @@
             </div>
         </div>
     </form>
+    <br>
+    <a th:href="@{/products/?page=1}">1</a>
+    <a th:href="@{/products/?page=2}">2</a>
+    <a th:href="@{/products/?page=3}">3</a>
+    <a th:href="@{/products/?page=4}">4</a>
+    <a th:href="@{/products/?page=5}">5</a>
+<!--    <table class="table table-hover">-->
+<!--        <tr>-->
+
+<!--            <th th:each="pageNumber : ${pageNumbers}" th:with="var = ${pageNumber + 1}">-->
+<!--                <button th:class="${pageNumber == currentPage}? 'btn btn-success' : 'btn btn-info'" type="submit"-->
+<!--                        th:name="page"-->
+<!--                        th:value=${pageNumber}-->
+<!--                        th:text=${var}></a></button>-->
+<!--            </th>-->
+
+
+<!--        </tr>-->
+
+<!--    </table>-->
 </div>
 
 </body>

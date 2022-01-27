@@ -6,6 +6,7 @@ import com.leksyit.task14vtb.entity.Product;
 import com.leksyit.task14vtb.mapper.ProductMapper;
 import com.leksyit.task14vtb.repository.ProductRepository;
 import com.leksyit.task14vtb.service.ProductService;
+import com.leksyit.task14vtb.specification.ProductSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -67,35 +67,42 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<ProductDto> sortedMinToMax() {
-        return productMapper.
-                listOfProductsToListOfProductsDto(productRepository.
-                        findAll().
-                        stream().
-                        sorted((i, j) -> j.getPrice() - i.getPrice()).
-                        toList());
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<ProductDto> sortedMaxToMin() {
-        return productMapper.
-                listOfProductsToListOfProductsDto(productRepository.
-                        findAll().
-                        stream().
-                        sorted(Comparator.comparingInt(Product::getPrice)).
-                        toList());
-    }
-
-    @Override
     @Transactional
     public void addProductById(Long id, ProductDto productDto) {
+
         Product existingProduct = productRepository.findById(id).orElseThrow();
         existingProduct.setTitle(productDto.getProductTitle());
         existingProduct.setPrice(productDto.getProductPrice());
 
         productRepository.save(existingProduct);
     }
+
+    @Override
+    @Transactional
+    public List<ProductDto> getListProductsFromPageableAndNullSpecification(Pageable pageable) {
+        return productMapper.listOfProductsToListOfProductsDto(getProductWithPagingAndFiltering(Specification.where(null), pageable).getContent());
+    }
+
+    @Override
+    @Transactional
+    public List<ProductDto> getListProductsFromPageable(Specification<Product> productSpecification, Pageable pageable) {
+        return productMapper.listOfProductsToListOfProductsDto(getProductWithPagingAndFiltering(productSpecification, pageable).getContent());
+    }
+
+    @Override
+    public Specification<Product> settingSpecification(String word, Integer minPrice, Integer maxPrice) {
+        Specification<Product> specification = Specification.where(null);
+        if (word != null) {
+            specification = specification.and(ProductSpecification.titleContains(word));
+        }
+        if (minPrice != null) {
+            specification = specification.and(ProductSpecification.priceGreaterThanOrEqual(minPrice));
+        }
+        if (maxPrice != null) {
+            specification = specification.and(ProductSpecification.priceLesserThanOrEqual(maxPrice));
+        }
+        return specification;
+    }
+
 
 }
