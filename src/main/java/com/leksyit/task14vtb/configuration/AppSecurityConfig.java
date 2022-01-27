@@ -42,7 +42,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .defaultSuccessUrl("/products", true).loginPage("/login")
+                .defaultSuccessUrl("/products/?size=5&word=&minPrice=&maxPrice=", true).loginPage("/login")
                 .permitAll()
                 .and()
                 .logout()

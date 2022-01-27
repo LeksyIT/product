@@ -4,12 +4,14 @@ import com.leksyit.task14vtb.dto.ProductDto;
 import com.leksyit.task14vtb.entity.Product;
 import com.leksyit.task14vtb.service.impl.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,7 +27,6 @@ public class ProductsController {
     private static final String REDIRECT_PRODUCTS = "redirect:/products";
     private static final String ID = "id";
 
-    // FIXME: 27.01.2022 Добавить переключение меду страницами
     @GetMapping
     public String showProductsList(Model model,
                                    @RequestParam(value = "word", required = false) String word,
@@ -35,6 +36,7 @@ public class ProductsController {
                                    Pageable pageable) {
 
         Specification<Product> specification = productsService.settingSpecification(word, minPrice, maxPrice);
+        Page<Product> modelsPages = productsService.getProductWithPagingAndFiltering(specification, pageable);
         List<ProductDto> productList = productsService.getListProductsFromPageable(specification, pageable);
 
         model.addAttribute(PRODUCTS, productList);
@@ -42,6 +44,8 @@ public class ProductsController {
         model.addAttribute("word", word);
         model.addAttribute("minPrice", minPrice);
         model.addAttribute("maxPrice", maxPrice);
+        model.addAttribute("currentPage", pageable.getPageNumber());
+        model.addAttribute("pageNumbers", preparePageInt(pageable.getPageNumber(), modelsPages.getTotalPages()));
         return PRODUCTS;
     }
 
@@ -88,7 +92,24 @@ public class ProductsController {
                                  @ModelAttribute(value = PRODUCT) ProductDto productDto,
                                  Pageable pageable) {
 
+        Specification<Product> specification = Specification.where(null);
+
+        Page<Product> modelsPages = productsService.getProductWithPagingAndFiltering(specification, pageable);
+        model.addAttribute("currentPage", pageable.getPageNumber());
+        model.addAttribute("pageNumbers", preparePageInt(pageable.getPageNumber(), modelsPages.getTotalPages()));
+
         model.addAttribute(PRODUCTS, productsService.getListProductsFromPageableAndNullSpecification(pageable));
         return PRODUCTS;
+    }
+
+    private List<Integer> preparePageInt(int current, int totalPages) {
+
+        List<Integer> pageNumbers = new ArrayList<>();
+        int start = Math.max(current - 5, 0);
+        int end = Math.min(totalPages,start+11);
+        for (int i = start;i<end;i++){
+            pageNumbers.add(i);
+        }
+        return pageNumbers;
     }
 }
