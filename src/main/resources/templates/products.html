@@ -10,6 +10,7 @@
 
 <body>
 <div class="container">
+    <h3><span th:text="'Login: ' + ${login}"></span></h3>
     <h3>Filter</h3>
     <form th:action="@{/products}" method="get" class="form-horizontal">
         <input type="hidden" name="size" value="5">
@@ -30,11 +31,13 @@
         </div>
         <div style="..." class="input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input th:value="${minPrice != null} ? ${minPrice}" name="minPrice" placeholder="minPrice" class="form-control"/>
+            <input th:value="${minPrice != null} ? ${minPrice}" name="minPrice" placeholder="minPrice"
+                   class="form-control"/>
         </div>
         <div style="..." class="input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input th:value="${maxPrice != null} ? ${maxPrice}" name="maxPrice" placeholder="maxPrice" class="form-control"/>
+            <input th:value="${maxPrice != null} ? ${maxPrice}" name="maxPrice" placeholder="maxPrice"
+                   class="form-control"/>
         </div>
         <br>
         <div style="..." class="form-group">
@@ -76,7 +79,7 @@
             <td th:text="${product.productPrice}"></td>
             <td>
                 <a th:href="@{'/products/show/' + ${product.productId}}" class="btn btn-primary" th:text="Watch"></a>
-                <a th:href="@{'/products/confidential/' + ${product.productId}}" class="btn btn-danger" th:text="Delete"></a>
+                <a th:href="@{'/products/delete/' + ${product.productId}}" class="btn btn-danger" th:text="Delete"></a>
                 <a th:href="@{'/products/edit/' + ${product.productId}}" class="btn btn-info" th:text="Edit"></a>
             </td>
         </tr>

@@ -23,6 +23,9 @@ public class Product {
     @Column(name = "price")
     private int price;
 
+    @Column(name = "visit")
+    private int visit;
+
     public Product(String title, int price) {
         this.title = title;
         this.price = price;

@@ -10,6 +10,7 @@ import com.leksyit.task14vtb.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -40,6 +41,19 @@ public class UserServiceImpl implements UserService {
         } catch (Exception ex) {
             return null;
         }
+    }
+
+    @Override
+    public String getUserName() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username;
+
+        if (principal instanceof UserDetails userDetails) {
+            username = (userDetails).getUsername();
+        } else {
+            username = principal.toString();
+        }
+        return username;
     }
 
     @Override

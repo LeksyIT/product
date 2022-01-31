@@ -12,5 +12,6 @@ public class ProductDto {
     private Long productId;
     private String productTitle;
     private int productPrice;
+    private int productVisited;
 
 }

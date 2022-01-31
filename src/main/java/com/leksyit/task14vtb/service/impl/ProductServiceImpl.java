@@ -104,5 +104,13 @@ public class ProductServiceImpl implements ProductService {
         return specification;
     }
 
+    @Override
+    public void addNewVisited(Long id) {
+        Product product = productRepository.getById(id);
+        product.setVisit(product.getVisit() + 1);
+        productRepository.save(product);
+        productMapper.productToProductDto(product);
+    }
+
 
 }

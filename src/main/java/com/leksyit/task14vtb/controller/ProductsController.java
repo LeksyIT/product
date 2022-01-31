@@ -2,11 +2,13 @@ package com.leksyit.task14vtb.controller;
 
 import com.leksyit.task14vtb.dto.ProductDto;
 import com.leksyit.task14vtb.entity.Product;
+import com.leksyit.task14vtb.service.UserService;
 import com.leksyit.task14vtb.service.impl.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +23,11 @@ import java.util.List;
 public class ProductsController {
 
     private final ProductServiceImpl productsService;
+    private final UserService userService;
 
     private static final String PRODUCT = "product";
     private static final String PRODUCTS = "products";
-    private static final String REDIRECT_PRODUCTS = "redirect:/products";
+    private static final String REDIRECT_PRODUCTS = "redirect:/products/?size=5&word=&minPrice=&maxPrice=";
     private static final String ID = "id";
 
     @GetMapping
@@ -46,6 +49,8 @@ public class ProductsController {
         model.addAttribute("maxPrice", maxPrice);
         model.addAttribute("currentPage", pageable.getPageNumber());
         model.addAttribute("pageNumbers", preparePageInt(pageable.getPageNumber(), modelsPages.getTotalPages()));
+        model.addAttribute("login", userService.getUserName());
+
         return PRODUCTS;
     }
 
@@ -59,16 +64,19 @@ public class ProductsController {
 
     @GetMapping("/show/{id}")
     public String showOneProduct(Model model, @PathVariable(value = ID) Long id) {
+        productsService.addNewVisited(id);
         model.addAttribute(PRODUCT, productsService.getById(id));
         return "product-page";
     }
 
-    @GetMapping("/confidential/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @GetMapping("/delete/{id}")
     public String deleteStudent(@PathVariable(value = ID) Long id) {
         productsService.deleteProduct(id);
         return REDIRECT_PRODUCTS;
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/edit/{id}")
     public String updateStudent(@PathVariable(value = ID) Long id,
                                 @ModelAttribute(value = PRODUCT) ProductDto productDto,
@@ -79,6 +87,7 @@ public class ProductsController {
         return REDIRECT_PRODUCTS;
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/edit/{id}")
     public String openUpdateStudentPage(@PathVariable(value = ID) Long id,
                                         Model model) {

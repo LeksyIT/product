@@ -30,4 +30,6 @@ public interface ProductService {
     List<ProductDto> getListProductsFromPageable(Specification<Product> productSpecification, Pageable pageable);
 
     Specification<Product> settingSpecification(String word, Integer minPrice, Integer maxPrice);
+
+    void addNewVisited(Long id);
 }
