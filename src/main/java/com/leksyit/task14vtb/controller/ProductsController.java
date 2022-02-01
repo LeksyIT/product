@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -69,14 +69,14 @@ public class ProductsController {
         return "product-page";
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @Secured(value="ROLE_ADMIN")
     @GetMapping("/delete/{id}")
     public String deleteStudent(@PathVariable(value = ID) Long id) {
         productsService.deleteProduct(id);
         return REDIRECT_PRODUCTS;
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @Secured(value="ROLE_ADMIN")
     @PostMapping("/edit/{id}")
     public String updateStudent(@PathVariable(value = ID) Long id,
                                 @ModelAttribute(value = PRODUCT) ProductDto productDto,
@@ -87,7 +87,7 @@ public class ProductsController {
         return REDIRECT_PRODUCTS;
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @Secured(value="ROLE_ADMIN")
     @GetMapping("/edit/{id}")
     public String openUpdateStudentPage(@PathVariable(value = ID) Long id,
                                         Model model) {

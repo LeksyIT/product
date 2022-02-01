@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
 <head>
     <meta charset="utf-8"/>
     <title>Каталог товаров</title>
@@ -79,8 +82,8 @@
             <td th:text="${product.productPrice}"></td>
             <td>
                 <a th:href="@{'/products/show/' + ${product.productId}}" class="btn btn-primary" th:text="Watch"></a>
-                <a th:href="@{'/products/delete/' + ${product.productId}}" class="btn btn-danger" th:text="Delete"></a>
-                <a th:href="@{'/products/edit/' + ${product.productId}}" class="btn btn-info" th:text="Edit"></a>
+                <a sec:authorize="hasRole('ADMIN')" th:href="@{'/products/delete/' + ${product.productId}}" class="btn btn-danger" th:text="Delete"></a>
+                <a sec:authorize="hasRole('ADMIN')" th:href="@{'/products/edit/' + ${product.productId}}" class="btn btn-info" th:text="Edit"></a>
             </td>
         </tr>
         </tbody>
