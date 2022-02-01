@@ -10,7 +10,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRegistrationDto {
-
     private String login;
     private String password;
     private List<RoleDto> userRoles;

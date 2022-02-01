@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -112,5 +113,16 @@ public class ProductServiceImpl implements ProductService {
         productMapper.productToProductDto(product);
     }
 
+    @Override
+    public List<Integer> preparePageInt(int current, int totalPages) {
+
+        List<Integer> pageNumbers = new ArrayList<>();
+        int start = Math.max(current - 5, 0);
+        int end = Math.min(totalPages,start+11);
+        for (int i = start;i<end;i++){
+            pageNumbers.add(i);
+        }
+        return pageNumbers;
+    }
 
 }

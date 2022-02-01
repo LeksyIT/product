@@ -32,4 +32,6 @@ public interface ProductService {
     Specification<Product> settingSpecification(String word, Integer minPrice, Integer maxPrice);
 
     void addNewVisited(Long id);
+
+    List<Integer> preparePageInt(int current, int totalPages);
 }

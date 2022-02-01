@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -48,7 +47,7 @@ public class ProductsController {
         model.addAttribute("minPrice", minPrice);
         model.addAttribute("maxPrice", maxPrice);
         model.addAttribute("currentPage", pageable.getPageNumber());
-        model.addAttribute("pageNumbers", preparePageInt(pageable.getPageNumber(), modelsPages.getTotalPages()));
+        model.addAttribute("pageNumbers", productsService.preparePageInt(pageable.getPageNumber(), modelsPages.getTotalPages()));
         model.addAttribute("login", userService.getUserName());
 
         return PRODUCTS;
@@ -102,23 +101,11 @@ public class ProductsController {
                                  Pageable pageable) {
 
         Specification<Product> specification = Specification.where(null);
-
         Page<Product> modelsPages = productsService.getProductWithPagingAndFiltering(specification, pageable);
-        model.addAttribute("currentPage", pageable.getPageNumber());
-        model.addAttribute("pageNumbers", preparePageInt(pageable.getPageNumber(), modelsPages.getTotalPages()));
 
+        model.addAttribute("currentPage", pageable.getPageNumber());
+        model.addAttribute("pageNumbers", productsService.preparePageInt(pageable.getPageNumber(), modelsPages.getTotalPages()));
         model.addAttribute(PRODUCTS, productsService.getListProductsFromPageableAndNullSpecification(pageable));
         return PRODUCTS;
-    }
-
-    private List<Integer> preparePageInt(int current, int totalPages) {
-
-        List<Integer> pageNumbers = new ArrayList<>();
-        int start = Math.max(current - 5, 0);
-        int end = Math.min(totalPages,start+11);
-        for (int i = start;i<end;i++){
-            pageNumbers.add(i);
-        }
-        return pageNumbers;
     }
 }
